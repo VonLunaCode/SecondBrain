@@ -1,31 +1,32 @@
-import { StyleSheet } from 'react-native';
+// app/(tabs)/two.tsx
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { SafeAreaView, Text, View } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons'; // Usamos otro set de iconos
 
 export default function TabTwoScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
-    </View>
+    <SafeAreaView className="flex-1 bg-slate-50">
+      <View className="flex-1 p-6">
+
+        {/* Encabezado */}
+        <View className="mb-8">
+          <Text className="text-4xl font-extrabold text-slate-800">
+            Mis Gastos
+          </Text>
+          <Text className="text-lg text-slate-500">
+            Control total de tus finanzas.
+          </Text>
+        </View>
+
+        {/* Gráfico de ejemplo (Placeholder) */}
+        <View className="h-64 items-center justify-center rounded-2xl bg-white p-4 shadow-sm">
+          <FontAwesome5 name="chart-pie" size={48} color="#cbd5e1" />
+          <Text className="mt-4 text-center font-bold text-slate-400">
+            Tu reporte financiero mensual aparecerá aquí.
+          </Text>
+        </View>
+
+      </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

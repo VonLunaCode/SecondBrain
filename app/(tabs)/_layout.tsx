@@ -1,59 +1,73 @@
-import React from 'react';
+// app/(tabs)/_layout.tsx
+
+import { Tabs } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
+// Un componente de icono reutilizable y limpio para la barra de pestañas.
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  // Usamos el mismo componente FontAwesome para todos los iconos.
+  // El tamaño se ajusta para que se vea bien en la barra.
+  return <FontAwesome size={22} {...props} />;
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        // Define el color del icono y el texto de la pestaña activa.
+        // Usamos un color fijo en lugar de uno que dependa del tema del dispositivo.
+        tabBarActiveTintColor: '#8b5cf6', // Un tono de morado
+
+        // Define el color del icono y el texto de las pestañas inactivas.
+        tabBarInactiveTintColor: '#a1a1aa', // Un tono de gris
+
+        // Ocultamos el encabezado por defecto en todas las pestañas.
+        // Esto nos da control total para añadir encabezados personalizados
+        // dentro de cada pantalla si lo necesitamos.
+        headerShown: false,
+
+        // Estilos para la barra de pestañas en sí.
+        tabBarStyle: {
+          backgroundColor: '#ffffff', // Fondo blanco
+          borderTopWidth: 0, // Sin línea superior para un look más limpio
+          elevation: 5, // Sombra sutil en Android
+          shadowOpacity: 0.1, // Sombra sutil en iOS
+        }
       }}>
+
+      {/* Pestaña 1: Gestor de Tareas */}
       <Tabs.Screen
+        // `name` debe coincidir con el nombre del archivo: `index.tsx`
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          title: 'Tareas', // El texto que se muestra en la pestaña
+          tabBarIcon: ({ color }) => <TabBarIcon name="check-square" color={color} />,
         }}
       />
+
+      {/* Pestaña 2: Gestor de Gastos */}
       <Tabs.Screen
+        // `name` debe coincidir con el nombre del archivo: `two.tsx`
         name="two"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Gastos', // El texto que se muestra
+          tabBarIcon: ({ color }) => <TabBarIcon name="credit-card" color={color} />,
         }}
       />
+
+      {/* Puedes añadir aquí las futuras pestañas para los otros módulos */}
+      {/* Por ejemplo, para el CRM:
+      <Tabs.Screen
+        name="people" // (Necesitarás crear un archivo `people.tsx`)
+        options={{
+          title: 'Personas',
+          tabBarIcon: ({ color }) => <TabBarIcon name="users" color={color} />,
+        }}
+      />
+      */}
     </Tabs>
   );
 }
